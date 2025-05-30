@@ -1,0 +1,193 @@
+---
+title: "ACDS1010 Functions Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+## Example 1 from slides
+
+```{r simple-function}
+
+?function() #help
+
+# fun.1 <- function(n){
+#   
+# }
+
+
+```
+
+
+
+## Example 2 from slides
+
+```{r Assigning-variables}
+
+fun.2 <- function(x){
+  x^2
+}
+
+fun.3 <- function(x){
+  y <- x^2
+}
+
+fun.2(2)
+fun.3(2)
+
+## Example 2:
+
+
+
+
+
+```
+
+
+
+
+
+## Example 3 from slides
+
+
+```{r Multiple-inputs}
+
+
+
+
+```
+
+
+
+
+
+## Example 4 from slides
+
+
+```{r Multiple-lines}
+
+
+
+
+
+```
+
+
+
+
+
+## Example 5 from slides
+
+```{r return}
+
+?return() #help
+
+
+
+```
+
+
+
+## Example 6 from slides
+
+```{r Multiple-values}
+
+#list.1 <- list(object.1 = 100, object.2 = "ADSC1010")
+
+# MaxAndMin <- function(vector) {
+#   # Calculate the maximum and minimum values of the input vector
+#   max_value <- max(input_vector)
+#   min_value <- min(input_vector)
+#   
+#   # Return the maximum and minimum values as a named vector
+#   result <- c(Maximum = max_value, Minimum = min_value)
+#   return(result)
+# }
+
+
+```
+
+
+
+
+## Example 7 from slides
+
+```{r conditions}
+
+
+?ifelse()
+
+
+# Vec.max <- function(vec){
+#   if(max(vec) > 5){
+#     return("Maximum is larger than 5")
+#     }
+#   else { 
+#     return(max(vec))
+#   }
+# }
+
+
+## Example 7:
+
+
+
+
+
+```
+
+
+
+
+
+```{r}
+
+
+F1 <- function(a, b = 1, c = 2, d = NULL){
+        a*b*c + d
+        }
+
+F1(a=4,d=2)
+
+```
+## Example 8
+
+```{r Default-Examples}
+
+# function with default values
+Area_Volume1 <- function(shape = "rectangle", length = 0, width = 0, height = 1) {
+  if (shape == "rectangle") {
+    area <- length * width
+  } else if (shape == "rectanguar prism") {
+    area <- length * width * height
+  } else {
+    return("Unsupported shape. Choose 'rectangle' or 'rectanguar prism'.")
+  }
+  
+  return(area)
+}
+
+Area_Volume1("Cone")
+
+# OR
+
+Area_Volume2 <- function(length = 0, width = 0, height = 1) {
+  if (height != 1) {
+    area <- list(Volume = length*width*height)
+  } else {
+    area <- list(Area = length*width*height)
+  }
+  
+  return(area)
+}
+
+Area_Volume2(1,5)
+Area_Volume2(1,5,8)
+
+```

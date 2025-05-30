@@ -1,0 +1,212 @@
+---
+title: "Interactive Visualizations in R"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r Packages}
+
+library(ggplot2)
+library(plotly)
+devtools::install_github("hafen/rbokeh")
+library(rbokeh)
+library(leaflet)
+
+```
+
+
+# Plotly
+
+## Example 1 from slides
+
+
+```{r}
+
+data("mtcars")
+data("iris")
+
+colnames(mtcars)
+colnames(iris)
+
+mtcars$Cylinders <- factor(mtcars$cyl)
+HP_Cyl <- ggplot(data = mtcars)+
+  geom_point(mapping = aes(x = Cylinders, y = hp, color = Cylinders))+
+  labs(title = "Horsepower by Cylinders",
+       x = "Cylinders",
+       y = "Horsepower", 
+       color = "Cylinders")
+
+HP_Cyl
+ggplotly(HP_Cyl)
+
+```
+
+
+
+
+
+
+## Example 2 from slides
+
+
+```{r}
+
+plot_ly(
+  data = mtcars, # the data frame
+  x = ~ Cylinders, # specify the column for the x-axis
+  y = ~ hp, # specify the column for the y-axis
+  color = ~ Cylinders, # formula to specify the colour encoding
+  type = "scatter", # specify the type of plot to make
+  mode = "markers" # determine the "drawing mode" for the points
+) %>% # pipe the plotly object into the layout function
+  layout(
+    title = "Horsepower by Cylinders", # plot title
+    xaxis = list(title = "Cylinders"), # axis labels
+    yaxis = list(title = "Horsepower")
+  )
+
+
+
+```
+
+
+
+
+## Example 3 from slides
+
+
+```{r}
+
+
+  plot_ly(
+    data = mtcars,
+    x = ~ Cylinders, 
+    y = ~ hp,
+    split = ~ Cylinders, # Facet argument
+    type = 'violin', # specify the type of plot to make
+    box = list(
+      visible = T # Include boxplot
+    ),
+    meanline = list(
+      visible = T # Include mean
+    )
+  )  %>% # pipe the plotly object into the layout function
+  layout(
+    title = "Violin Plot of Horsepower by Cylinders",
+    xaxis = list(
+      title = "Cylinders"
+    ),
+    yaxis = list(
+      title = "Horsepower"
+    )
+  )
+
+
+
+
+
+```
+
+
+
+# RBokeh
+
+## Example 4 from slides
+
+```{r}
+
+
+figure(
+  data = mtcars, # data for the figure
+  title = "Horsepower by Cylinders" #Title of the figure
+  ) %>% 
+  ly_points(
+    Cylinders, # column for the x-axis (no "")
+    hp,
+    color = Cylinders # Column for colour encoding
+  ) %>% 
+  x_axis(
+    label = "Cylinders", # axis label
+  ) %>% 
+  y_axis(
+    label = "Horsepower",
+  )
+
+
+
+
+```
+
+
+
+# Leaflet
+
+
+
+
+
+```{r}
+
+# Kamloops Airport
+
+
+Airport <- data.frame(
+  label = c("Kamloops Airport (YKA)", "Knutsford Airstrip"), # airport dataset
+  longitude = c(-120.4418,-120.30864),
+  latitude = c(50.7052,50.5980307))
+
+#Default
+
+leaflet(data=Airport) %>% # specify the data you want to add as a layer
+  addTiles() %>% 
+  setView(lng = -120.34, lat = 50.68, zoom = 10) %>% #focus on Kamloops
+  addMarkers(lng = ~longitude, lat = ~latitude, # Mark the airport
+             popup = ~label) # What info do we want on the popup
+
+# OR Using Esri.NatGeoWorldMap
+
+palette_fn <- colorFactor(palette = "Dark2", domain = Airport$label) # Function to add colours
+
+
+leaflet(data=Airport) %>% 
+  addProviderTiles(providers$Esri.NatGeoWorldMap) %>% # add tiles from a different source
+  setView(lng = -120.34, lat = 50.68, zoom = 10) %>% # Focus on Kamloops
+  addCircles(lng = ~longitude, # which column do we get the longitude from
+             lat = ~latitude, # which column do we get the longitude from
+             popup = ~label, # What info do we want on the popup
+             radius = 300,# Size of the circle marker
+             color = ~palette_fn(label),
+             opacity = 1) %>% # Colour of markers
+addLegend(
+  position = "topright", #location of legend
+  title = "Airport Locations", #Legend Title
+  pal = palette_fn, # Legend colours
+  values = ~ label, # legend values
+  opacity = 1
+)
+
+```
+
+ 
+ 
+ 
+## Example 5 from slides
+ 
+ 
+```{r}
+
+
+
+
+
+```
+ 
+ 

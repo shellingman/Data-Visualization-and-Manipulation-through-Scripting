@@ -1,0 +1,114 @@
+---
+title: "ADSC1010 Accessing Databases with R Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r packages}
+
+if(!require(RSQLite)) install.packages("RSQLite")
+library(RSQLite)
+
+if(!require(DBI)) install.packages("DBI")
+library(DBI)
+
+if(!require(dbplyr)) install.packages("dbplyr")
+library(dbplyr)
+
+library(dplyr)
+
+```
+
+
+
+```{r mtcars-to-SQLite}
+
+
+con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
+copy_to(con, mtcars)
+
+tbl(con,"mtcars")
+```
+
+
+## Example 1
+
+```{r SQLite}
+
+#"Chinook_Sqlite.sqlite"
+#NW <- DBI::dbConnect(RSQLite::SQLite(), "northwind.db")
+
+
+```
+
+
+## Example 2
+
+```{r Table-names}
+
+#dbListTables(NW)
+
+# Album 
+#Album <- tbl(Chinook,"Album")
+
+```
+
+
+
+
+## Example 3
+
+```{r Artists-query}
+
+# Artists 
+
+ACDC_Albums_query <- Album %>%
+  filter(ArtistId == 1) %>%
+  select(Title,AlbumId)
+
+show_query(ACDC_Albums_query)
+
+ACDC_Albums <- data.frame(ACDC_Albums_query)
+
+```
+
+
+
+```{r U2-Track-query}
+
+# Track
+
+
+
+```
+
+
+
+## Example 4 from slides
+
+```{r join}
+
+#left_join(Artist,Album, by = "ArtistId")
+
+
+
+```
+
+
+
+Disconnect
+
+```{r Disconnect}
+
+
+dbDisconnect(Chinook)
+
+```
+

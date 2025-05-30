@@ -1,0 +1,179 @@
+---
+title: "ACDS1010 Data in R I Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Data in R Examples
+
+
+Some examples using the class() function:
+
+```{r class_function}
+?class() #help
+
+O1 <- FALSE
+O2 <- 'FALSE'
+O3 <- NA
+O4 <- 14.5
+
+class(O1) #logical
+class(O2) #character
+class(O3) #logical
+class(O4) #numeric
+```
+
+
+
+## Example 1 using class() from slides
+
+
+
+
+
+Some examples using the is.[classOfData]() function:
+
+```{r is.class_function}
+?is.numeric() #help
+
+O1 <- FALSE
+O2 <- 'FALSE'
+O3 <- NA
+O4 <- 14.5
+
+is.numeric(O1) #logical
+is.numeric(O2) #character
+is.numeric(O3) #logical
+is.numeric(O4) #numeric
+
+
+is.character(O1) #logical
+is.character(O2) #character
+is.character(O3) #logical
+is.character(O4) #numeric
+  
+  
+is.logical(O1) #logical
+is.logical(O2) #character
+is.logical(O3) #logical
+is.logical(O4) #numeric  
+  
+```
+
+
+
+
+
+
+Some examples using converting functions:
+
+```{r class_function}
+?as.character() #help
+
+O1 <- FALSE
+O2 <- 'FALSE'
+O3 <- NA
+O4 <- 14.5
+
+#Characters#
+as.character(O1) #logical
+as.character(O2) #character
+as.character(O3) #logical
+as.character(O4) #numeric
+
+#Numeric#
+as.numeric(O1) #logical
+as.numeric(O2) #character ##Problem!!
+as.numeric(O3) #logical
+as.numeric(O4) #numeric
+```
+
+
+
+
+## Example 2 from slides:
+
+
+
+
+
+
+
+This code is what you use to load packages and data:
+```{r loading-packages}
+
+library(dplyr) #Load the package
+data("starwars") #load the data
+
+
+
+```
+
+
+
+## Example 3 from the slides
+
+
+
+
+
+
+## Example 4 from the slides
+
+```{r loading_CSVs}
+?read.csv() #help
+
+#data <- read.csv("filename.csv", header = TRUE) #Use this
+
+
+
+
+```
+
+
+
+
+The following code loads some American stock exchange symbols from Yahoo Finance:
+```{r American-Symbols}
+if(!require(quantmod)) install.packages("quantmod")
+library(quantmod)
+
+??quantmod #Package help
+?getSymbols() #help
+
+
+### vector of American Stock components
+vecOfSymbs = c("AXP", "GE", "GS", "HD", "NKE")  
+
+
+getSymbols(vecOfSymbs, source = "yahoo", from = "1995-01-03", to = "1999-12-31")
+
+
+```
+
+
+## Example 5 from slides
+
+
+
+
+
+
+## Example 6 from slides
+
+```{r Saving}
+
+?save() #help
+#save(GE,file = "GE.RData")
+
+?write.csv() #help
+#write.csv(GE,file = "GE.csv")
+
+```
+

@@ -1,0 +1,150 @@
+---
+title: "ADSC1010_Loops_in_R_Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Example 1 from slides
+
+```{r for}
+
+## for loops
+
+# for(i in 1:10){ #times 2 example
+#   
+#   a <- i*2
+#   print(a)
+# }
+
+
+## Example 1:
+
+
+```
+
+
+
+
+## Example 2 from slides
+
+```{r while}
+
+# i <- 0
+# 
+# while(i <= 10){
+#   
+#   i <- i + 2
+#   print(i)
+#   
+# }
+
+## Example 2
+
+
+
+
+```
+
+
+
+
+
+## Example 3 from slides
+
+```{r repeat}
+
+
+# x <- 0
+# repeat {
+# print(x)
+# x = x+2
+# if (x == 20){
+# break
+# }
+# }
+
+##Example 3:
+
+
+```
+
+
+
+
+
+
+```{r nested}
+
+
+for (i in c('A','B','C','D','E')){
+  if( i == 'C')
+    break
+  # inner loop
+  for (j in c('X','Y','Z')){
+    # print i & j
+    if( j == 'Y')
+      break
+    print(c(i,j))
+  }
+}
+
+
+```
+
+
+
+
+
+## Example 4 from slides
+
+
+
+```{r nested-slides}
+ 
+Print_Vectors <- function(vector1, vector2) {
+  for (element1 in vector1) {
+    for (element2 in vector2) {
+      sum_elements <- element1 + element2
+      Elements <- list(Element_1 = element1, Element_2 = element2)
+      print(Elements)
+      if (sum_elements > 50) {
+        print("Sum is greater than 50. Breaking out of the loop.")
+        break
+      }
+    }
+  }
+}
+
+
+#Example
+
+vector1 <- c(10, 20, 30)
+vector2 <- c(5, 25, 35)
+
+Print_Vectors(vector1, vector2)
+
+
+
+```
+
+
+
+
+
+## Example 5 from slides
+
+```{r lapply}
+
+ # add_fun <- function(a) {a + 2}
+ # lapply(0:14, add_fun)
+
+## Example 5
+
+
+```
+

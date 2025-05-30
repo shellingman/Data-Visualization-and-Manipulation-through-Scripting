@@ -1,0 +1,290 @@
+---
+title: "ADSC1010 Data Manipulation in R Examples"
+author: "Sean Hellingman"
+date: "2023-09-05"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r packages}
+rm(list = ls()) #Remove all objects from the workspace
+
+
+if(!require(dplyr)) install.packages("dplyr")
+library(dplyr)
+
+
+
+```
+
+
+
+```{r select-cars}
+
+data("mtcars")
+?select() # help
+colnames(mtcars)
+
+New_Cars <- dplyr::select(mtcars,mpg,cyl,hp,wt)
+head(New_Cars)
+
+
+```
+
+## Example 1 from slides
+
+
+```{r select-example}
+
+data("starwars")
+colnames(starwars)
+
+
+
+
+```
+
+
+
+```{r filter-cars }
+?filter() # help
+summary(mtcars$qsec)
+
+
+Fast_Cars <- filter(mtcars,qsec <= 17)
+head(Fast_Cars)
+
+
+```
+
+
+## Example 2 from slides
+
+```{r filter-example}
+
+
+
+```
+
+
+
+
+
+
+
+```{r mutate-cars}
+
+#Kilometres per litre#
+mtcars <- mutate(mtcars, kpl = mpg/2.352)
+head(mtcars)
+```
+
+
+
+## Example 3 from slides
+
+```{r mutate-example}
+?mutate() #help
+#starwars$mass/(starwars$height/100)^2
+colnames(starwars)
+
+
+
+```
+
+
+
+Arranging by two variables really only works if there are multiple observations for some groups.
+The order of the variables that you arrange by matters.
+
+```{r arrange-cars}
+
+mtcars <- arrange(mtcars,cyl, -hp)
+head(mtcars)
+
+```
+
+
+## Example 4 from slides
+
+```{r arrange-example}
+?arrange() #help
+
+
+```
+
+
+
+
+Summarize
+
+```{r summarize-cars}
+#mean and median hp#
+
+cars_summary <- summarize(mtcars,mean_hp = mean(hp), median_hp = median(hp))
+cars_summary
+
+```
+
+
+## Example 5 from slides
+
+```{r summarize-example}
+?summarize() #help
+na.omit()
+
+
+
+```
+
+
+
+
+
+#### Sequential operations
+
+Average displacement (disp) of cars with over 109 hp and maximum number of cylinders. 
+
+```{r sequential-cars}
+
+
+#Intermediary
+
+#over 109 hp
+cars_109 <- filter(mtcars, hp > 109)
+#max cylinders
+max_cyl_109_hp <- filter(cars_109, cyl == max(cyl))
+#final value
+Av_disp <- summarize(max_cyl_109_hp,av_disp = mean(disp))
+Av_disp
+
+
+#anonymous
+Av_disp_1 <- summarise(
+  filter(
+    filter(
+      mtcars, hp > 109
+    ),
+    cyl == max(cyl)
+  ),
+  av_disp = mean(disp)
+)
+
+```
+
+
+
+
+
+## Example 5 from slides
+
+```{r seq-operations-example}
+
+#Intermediary
+
+
+
+
+#anonymous
+
+
+
+```
+
+
+
+Using the pipe operator %>% 
+
+```{r pipe-cars-example}
+
+Av_disp_2 <- mtcars %>% 
+  filter(hp > 109) %>% 
+  filter(cyl == max(cyl)) %>% 
+  summarise(avg_disp = mean(disp))
+
+
+
+```
+
+
+
+
+
+Using the *group_by()* function.
+```{r cars-group_by}
+
+
+Cars_Averages <- mtcars %>% 
+  group_by(cyl) %>% 
+  summarise(
+    avg_hp_cyl = mean(hp),
+    avg_mpg_cyl = mean(mpg)
+  )
+
+Cars_Averages
+
+```
+
+
+
+
+
+## Example 6 from slides
+
+```{r grou_by-example}
+
+
+
+
+```
+
+
+
+
+
+
+
+
+
+# Joining Data 
+
+
+
+```{r data for example}
+
+set.seed(12)
+
+# Create a small dataset of students
+small_students <- data.frame(
+  StudentID = c(1, 2, 3, 4),
+  Name = c("Alice", "Bob", "Charlie", "Sean")
+)
+
+# Create a large dataset of courses with more students
+large_courses <- data.frame(
+  CourseID = c(101, 102, 103, 104, 105),
+  CourseName = c("Math", "Science", "History", "English", "Art"),
+  StudentID = sample(1:15, 15)
+)
+
+Small_Grades <- left_join(small_students,large_courses, by = "StudentID")
+Small_Grades
+```
+
+
+
+
+
+## Example 7 from slides
+
+```{r import-data}
+
+
+
+
+```
+

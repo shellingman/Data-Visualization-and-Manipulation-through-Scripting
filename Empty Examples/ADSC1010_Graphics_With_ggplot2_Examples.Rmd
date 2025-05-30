@@ -1,0 +1,295 @@
+---
+title: "ADSC1010 Graphics With ggplot2"
+author: "Student Name and Number"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r Packages}
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+
+```
+
+## Example 1 from slides
+
+```{r}
+
+data("midwest")
+
+# Example x = total population & y = population density
+ggplot(data=midwest) + 
+  geom_point(mapping = aes(x = poptotal, y = popdensity))
+
+
+# Example x = percollege & y = peradultpoverty
+
+```
+
+## Example 2 from slides
+
+```{r}
+
+# #1 
+# ggplot(data=midwest) + 
+#   geom_col(mapping = aes(x = state, y = poptotal))
+
+
+```
+
+## Example 3 from slides
+
+```{r}
+
+ggplot(data=midwest, mapping = aes(x = poptotal, y = popdensity)) + 
+  geom_point() +
+  geom_smooth()
+
+# Example x = percollege & y = peradultpoverty
+```
+
+## Example 4 from slides
+
+```{r}
+
+ggplot(data=midwest) + 
+  geom_point(mapping = aes(x = poptotal, y = popdensity, color = state))
+
+# Added Outside #
+
+ggplot(data=midwest) + 
+  geom_point(mapping = aes(x = poptotal, y = popdensity), color = "red")
+
+# Example x = percollege & y = peradultpoverty
+```
+
+## Example 5 from slides
+
+```{r}
+
+state_education <- midwest %>%
+  mutate(HighSchool = poptotal*(perchsd/100),
+         College = poptotal*(percollege/100),
+         ProfDegree = poptotal*(percprof/100))
+
+state_education <- state_education %>% 
+  select(state, HighSchool, College, ProfDegree ) %>% 
+  gather(key = Education, value = Population, -state)
+
+
+#geom_col()
+#fill = 
+
+
+
+
+# #2
+# ggplot(data = state_education) +
+#   geom_col(mapping = aes(x = state, y = Population, fill = Education ),
+#            position = "fill")
+
+```
+
+## Example 6 from slides
+
+```{r}
+
+library(RColorBrewer)
+par(mar=c(3,4,2,2))
+display.brewer.all()
+
+
+# ggplot(data = state_education) +
+#   geom_col(mapping = aes(x = state, y = Population, fill = Education )) +
+#   scale_y_reverse()
+
+
+ # scale_fill_brewer(palette = "Dark2")
+ # scale_y_reverse()
+
+
+```
+
+## Example 7 from slides
+
+```{r}
+
+
+# coord_flip()+
+# coord_polar()
+# x = ""
+
+
+```
+
+## Example 8 from slides
+
+```{r}
+
+ggplot(data=midwest) + 
+  geom_point(mapping = aes(x = poptotal, y = popdensity, color = factor(inmetro)))+
+  facet_wrap(~state)
+
+
+
+#midwest <- midwest %>% 
+#  mutate(location = if_else(inmetro == 0, "Rural", "Metro"))
+
+# geom_point()
+# color = 
+# facet_wrap(~)
+
+```
+
+## Example 9 from slides
+
+```{r}
+
+library(ggrepel)
+
+# Get the counties that have the highest percentages of poverty by state
+most_poverty <- midwest %>% 
+  group_by(state) %>% 
+  top_n(1, wt = percadultpoverty) %>% #Select highest poverty by county
+  unite(county_state,county,state,sep = " ") #County and state labels
+
+
+# Without ggrepel
+
+# ggplot(data=midwest) +
+#   geom_point(mapping = aes(x = percollege, y = percadultpoverty,
+#                            color = location))+
+#   geom_label(data = most_poverty, aes(x = percollege, y = percadultpoverty, label = county_state),
+#              alpha = 0.5) + #opacity
+#   labs(title = "Scatterplot of Poverty by Education Percentage",
+#        x = "Percent college educated",
+#        y = "Percent of adults below poverty line") +
+#   xlim(-10, 50) # change the x-axis limits
+  
+# With ggrepel
+
+
+# midwest <- midwest %>%
+#   mutate(location = if_else(inmetro == 0, "Rural", "Metro"))
+# 
+# ggplot(data=midwest) +
+#   geom_point(mapping = aes(x = percollege, y = percadultpoverty,
+#                            color = location))+
+#   geom_label_repel(data = most_poverty, aes(x = percollege, y = percadultpoverty, label = county_state),
+#              alpha = 0.8) +
+#   labs(title = "Scatterplot of Poverty by Education Percentage",
+#        x = "Percent college educated",
+#        y = "Percent of adults below poverty line",
+#        color = "Metro or Rural")
+
+
+
+```
+
+## Example 10 from slides
+
+```{r}
+
+#state_shape <- map_data("state")
+
+Italy_shape <- map_data("italy")
+
+ggplot(Italy_shape)+
+  geom_polygon(
+    mapping = aes(x = long, y = lat, group = group), #, fill = region
+    color = "white", # outline colour,
+    size = .1 # outline size
+  ) + 
+  coord_map()+ #map coordinate system
+  labs(title = "Outline Map of Italian Tertiary Administrative Units")
+
+```
+
+## Example 11
+
+```{r}
+
+USA <- read.csv("2022_US_Population.csv")
+
+
+USA <- USA %>% 
+  mutate(state = tolower(state))
+
+state_shape <- map_data("state") %>% 
+  rename(state = region) %>%   #same names in the different frames
+  left_join(USA, by = "state")
+
+
+
+ggplot(state_shape)+
+  geom_polygon(
+    mapping = aes(x = long, y = lat, group = group, fill = population), #, fill = region
+    color = "white", # outline colour,
+    linewidth = .1 # outline size
+  ) + 
+  coord_map()+ #map coordinate system
+  labs(title = "", fill = "State Population")
+  
+
+
+
+
+```
+
+## Example 12
+
+```{r}
+
+library(ggrepel)
+
+Italy_shape <- map_data("italy")
+
+Italy_cities <- data.frame( city = c("Rome", "Naples", "Milan") ,long = c(12.49, 14.31, 9.19), lat = c(41.90, 40.85, 45.46) )
+
+ggplot(Italy_shape)+
+  geom_polygon(
+    mapping = aes(x = long, y = lat, group = group), #, fill = region
+    color = "white", # outline colour,
+    linewidth = .1 # outline size
+  ) + 
+  geom_point(
+    data = Italy_cities,
+    mapping = aes(x = long, y = lat),
+    colour = "green"
+  )+
+  geom_label_repel(data = Italy_cities,
+                   mapping = aes(x = long, y = lat, label = city),
+                   alpha = 0.8)+
+  coord_map()+ #map coordinate system
+  labs(title = "Outline Map of Italian Tertiary Administrative Units",
+       x = "Longitude",
+       y = "Latitude")
+
+
+## EXAMPLE ##
+
+US_Cities <- read.csv("US_Cities.csv")
+
+# state_shape
+
+
+
+
+```
+
+### For Assignment 5
+
+```{r}
+
+
+USA_Ohio <- map_data("county","ohio")
+table(midwest$county[midwest$state == "OH"])
+
+```

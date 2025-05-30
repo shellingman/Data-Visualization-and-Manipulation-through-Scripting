@@ -1,0 +1,150 @@
+---
+title: "ACDS1010 R Markdown Examples"
+author: "Student Name and Number"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+If you need to install the packages on your own:
+
+```{r packages}
+
+
+#install.packages("tinytex")
+#tinytex::install_tinytex()
+
+
+```
+
+
+
+
+# Heading 1
+
+## Heading 2
+
+### Heading 3
+
+
+**Bold**
+
+*italic*
+
+~~Here is a list:~~
+
+- item 1
+- item 2
+  + sub-item 2
+  + sub-item 3
+- Superscript^2^
+- Subscript~2~
+
+
+<!-- This is a R markdown comment -->
+
+Here is the [link](https://rstudio.github.io/cheatsheets/html/rmarkdown.html) to the R markdown cheat sheet.
+
+
+The following code chunk called summary-stats loads the *mtcars* package from base R. Then it outputs a summary of the data. **ALL CODE CHUNKS MUST HAVE DIFFERENT NAMES**
+
+```{r, summary-stats}
+data("mtcars") #Imports mtcars data from base R
+#?mtcars
+summary(mtcars) #summary of the variables in mtcars
+```
+
+
+The following code chunk plots the horsepower by the number of cylinders from the cars data.
+```{r, plot1}
+plot(mtcars$cyl,mtcars$hp, ylab = 'Horsepower',xlab = 'Cylinders')
+```
+
+
+The following code chunk creates the same plot without rendering the code, resizes the plot, and adds a figure caption.
+
+
+```{r, plot1-resized, echo=FALSE, fig.cap="Horesepower by Cylinders", fig.width=4, fig.height=3 }
+plot(mtcars$cyl,mtcars$hp, ylab = 'Horsepower',xlab = 'Cylinders')
+```
+
+\newpage
+
+
+*Note:* The two colon symbols specify which package a function is being called from.
+
+The following code generates a table of the first ten observations from the first four columns of the *mtcars* dataset. The code also changes the column names.
+
+```{r, table1}
+library(knitr) #We need to call the knitr library
+
+knitr::kable(head(mtcars[,0:4]),
+col.names = c('MPG', 'Cylinders',
+'Displacement', 'HP'))
+```
+
+
+
+# In Class Examples
+
+
+## Example 2
+
+
+
+## Example 3
+
+
+In the R markdown file you have already created, do the following:
+
+- Initialize a vector called Vector.1, that goes from 1 to 10.
+- Initialize a vector called Vector.2 that goes from 50 to 5 by 5.
+- In a separate code chunk, plot Vector.1 by Vector.2.
+- In a separate code chunk, plot Vector.1 by Vector.2 but adjust the size to be 1 inch high and 2 inches wide.
+- Add a caption to the smaller figure.
+
+```{r, Vectors-ex3}
+
+
+
+# Vector.2 <- seq(50, 5, by = -5)
+# plot(x,y)
+```
+
+
+
+
+```{r, plot1-resized-example3, echo=FALSE, fig.cap="", fig.width=1, fig.height=1 }
+
+
+```
+
+
+## Example 4
+In the R markdown file you have already created, do the following:
+
+- Use data("iris") to load the iris dataset in base R.
+- Create a table using kable() of the first 10 observations from this data.
+- Rename the columns to something more suitable
+
+
+```{r, table-ex4}
+# library(knitr) #We need to call the knitr library
+# 
+# knitr::kable(head(mtcars[,0:4]),
+# col.names = c('MPG', 'Cylinders',
+# 'Displacement', 'HP'))
+
+
+
+```
+
+
+
+
+
+

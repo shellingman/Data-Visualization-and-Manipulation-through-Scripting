@@ -1,0 +1,202 @@
+---
+title: "ADSC1010 Reshaping Data in R with tidyr Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r packages}
+#rm(list = ls()) #Remove all objects from the workspace
+
+
+if(!require(tidyr)) install.packages("tidyr")
+library(tidyr)
+
+
+
+```
+
+
+## Example 1 from slides
+
+
+```{r}
+# get first observation for each Species in iris data
+mini_iris <- iris[c(1, 51, 101), ]
+
+# gather Sepal.Length, Sepal.Width, Petal.Length, Petal.Width
+gather(mini_iris, key = "flower_att", value = "measurement",
+       Sepal.Length, Sepal.Width, Petal.Length, Petal.Width)
+
+# same result
+gather(mini_iris, key = "flower_att", value = "measurement", -Species)
+
+
+
+
+```
+
+
+
+```{r data }
+
+
+Tickets_Wide <- read.csv("TicketPrices.csv")
+
+
+```
+
+
+
+```{r gather-function}
+
+?gather() #Help
+
+Tickets_Long <- gather(
+  Tickets_Wide,
+  key = Competition,
+  value = Ticket_Price,
+  -Club
+)
+
+
+```
+
+
+
+## Example 2 from slides
+
+
+```{r}
+
+set.seed(14)
+
+stocks <- tibble(
+  time = as.Date("2009-01-01") + 0:9,
+  X = rnorm(10, 10, 1),
+  Y = rnorm(10, 10, 2),
+  Z = rnorm(10, 10, 4)
+)
+
+
+stocksm <- stocks %>% gather(stock, price, -time)
+stocksm
+
+#Spread by stock
+stocksm %>% spread(key = stock, value = price)
+
+#spread by time
+stocksm %>% spread(key = time, value = price)
+
+
+```
+
+
+
+
+```{r spread-function}
+
+?spread() #Help
+
+Tickets_Wide_Club <- spread(
+  Tickets_Long,
+  key = Club,
+  value = Ticket_Price
+)
+
+Tickets_Wide_Competition <- spread(
+  Tickets_Long,
+  key = Competition,
+  value = Ticket_Price
+)
+
+
+```
+
+
+
+
+## Example 3 from slides
+
+
+
+```{r}
+
+# Create a sample data frame
+data <- data.frame(
+  First_Name = c("John", "Alice", "Bob"),
+  Last_Name = c("Doe", "Smith", "Johnson"),
+  Age = c(22, 25, 35)
+)
+
+# Use unite() to combine First_Name and Last_Name into a new column FullName
+data_united <- data %>%
+  unite(FullName, First_Name, Last_Name, sep = " ")
+
+data_united
+
+data_separate <- data_united %>% 
+  separate(col = FullName,
+           into = c("First", "Last"),
+           sep = " ")
+
+data_separate
+
+```
+
+
+```{r merging-variables}
+
+
+
+
+```
+
+
+
+
+
+## Exercise 1
+
+```{r Exercise-1-data}
+
+n = 10
+# creating a data frame
+dataframe = data.frame(
+                      S.No = c(1:n), 
+                    Group.1 = c(23, 345, 76, 212, 88, 
+                                199, 72, 35, 90, 265),
+                    Group.2 = c(117, 89, 66, 334, 90, 
+                               101, 178, 233, 45, 200),
+                    Group.3 = c(29, 101, 239, 289, 176,
+                                320, 89, 109, 199, 56))
+  
+# print the elements of the data frame
+dataframe
+
+
+df.long <- gather(
+  dataframe,
+  key = Group,
+  value = Values,
+  -S.No
+  )
+
+df.long
+
+
+df.wide <- spread(
+  df.long,
+  key = Group,
+  value = Values
+)
+
+df.wide
+
+
+```
+

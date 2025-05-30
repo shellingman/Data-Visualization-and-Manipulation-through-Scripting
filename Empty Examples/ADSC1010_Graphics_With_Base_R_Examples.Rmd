@@ -1,0 +1,226 @@
+---
+title: "ADSC1010 Graphics With Base R"
+author: "Student Name and Number"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+
+```{r}
+
+
+data(mtcars)
+
+plot(mtcars$mpg)
+#OR
+with(mtcars,plot(mpg))
+
+
+par(mfrow = c(1, 1))
+
+plot(mtcars$mpg,mtcars$hp)
+
+
+```
+
+
+## Example 1 from slides
+
+
+```{r EX-1}
+
+Football22 <- read.csv("Football22.csv")
+colnames(Football22)
+
+#par(mfrow = c(1, 1))
+
+
+```
+
+
+
+
+
+## Example 2 from slides
+
+
+```{r}
+
+hist(Football22$Points,freq = FALSE, main = "Density of League Points", xlab = "League Points")
+lines(density(Football22$Points), col = "red")
+
+
+```
+
+
+
+
+
+## Example 3 from slides
+
+```{r}
+
+
+boxplot(Goal_Differential~League, data = Football22, ylab="Goal Differential",
+        xlab = "League", main = "Boxplot of Goal Differential Across Leagues")
+
+
+
+
+
+
+
+
+
+
+#Football22$Half <- ifelse(Football22$Position < 11, "Upper", "Lower")
+# cex.axis = 0.7 
+
+
+```
+
+
+
+
+
+## Example 4 from slides
+
+
+
+```{r ex-4}
+
+if(!require(vioplot)) install.packages("vioplot")
+library(vioplot)
+
+vioplot(Goal_Differential~League, data = Football22, ylab="Goal Differential",
+        xlab = "League", main = "Violin Plot of Goal Differential Across Leagues",
+        col = "lightblue")
+
+
+```
+
+
+
+## Example 5 from slides
+
+
+
+
+
+```{r}
+
+data("iris")
+
+dotchart(iris$Sepal.Length, groups = iris$Species, main = "Dot Chart for Sepal Length",
+         ylab = "Species", xlab = "cm")
+
+
+```
+
+
+### Required Functions
+
+
+```{r REQUIRED-FUNCTIONS}
+
+panel.hist <- function(x, ...)
+{
+    usr <- par("usr")
+    par(usr = c(usr[1:2], 0, 1.5) )
+    h <- hist(x, plot = FALSE)
+    breaks <- h$breaks; nB <- length(breaks)
+    y <- h$counts; y <- y/max(y)
+    rect(breaks[-nB], 0, breaks[-1], y, col = "cyan", ...)
+}
+
+panel.cor <- function(x, y, digits = 2, prefix = "", cex.cor, ...)
+{
+    usr <- par("usr")
+    par(usr = c(0, 1, 0, 1))
+    r <- abs(cor(x, y))
+    txt <- format(c(r, 0.123456789), digits = digits)[1]
+    txt <- paste0(prefix, txt)
+    if(missing(cex.cor)) cex.cor <- 0.8/strwidth(txt)
+    text(0.5, 0.5, txt, cex = cex.cor * r)
+}
+
+
+
+
+```
+
+## Example 6 from slides
+
+```{r}
+
+
+pairs(iris[,1:4],lower.panel = panel.cor,
+                 diag.panel = panel.hist,
+                 upper.panel = panel.smooth)
+
+
+```
+
+
+
+
+
+## Example 7 from slides
+
+
+```{r}
+
+
+coplot(Wins ~ Goals_For|League, data = Football22,
+panel = function(x, y, ...) {
+points(x, y, ...)
+abline(lm(y ~ x), col = "blue")})
+
+
+
+```
+
+
+
+
+## Example 8 from slides
+
+
+
+```{r}
+
+library(lattice)
+histogram(~Goals_For, data = Football22, type="count")
+xyplot(Points~Goals_For|League, data = Football22)
+
+
+```
+
+
+## Example 9 from slides
+
+```{r}
+
+
+par(mar = c(4.1, 4.4, 4.1, 1.9), xaxs = "i", yaxs = "i")
+plot(y = Football22$Wins, x = Football22$Goals_Against,
+     main = "Number of League Wins by Goals Against",
+xlab = "Goals Against",
+ylab = "Number of League Wins",
+xlim = c(0, 80), ylim = c(0, 30), bty = "l",
+las = 1, cex.axis = 0.8, tcl = -0.2,
+pch = 16, col = "dodgerblue1", cex = 0.9)
+text(x = 20, y = 5, label = paste("Correlation:",
+                                  round(cor(Football22$Wins, Football22$Goals_Against), 
+                                        digits = 2), sep = " "), cex = 1,col = "red")
+
+
+
+```
+

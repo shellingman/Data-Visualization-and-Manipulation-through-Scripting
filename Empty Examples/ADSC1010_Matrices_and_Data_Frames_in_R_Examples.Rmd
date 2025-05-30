@@ -1,0 +1,116 @@
+---
+title: "ADSC1010 Matrices and Data Frames in R Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Example 1 from slides
+
+```{r Matrix}
+#matrix(1:16, nrow = 4, byrow = FALSE)
+
+
+
+```
+
+
+
+
+## Example 2 from slides
+
+
+```{r}
+
+#X <- seq(1,19,by = 2)
+#Matrix.1 <- matrix(X,ncol = 2)
+
+
+```
+
+
+
+
+## Example 3 from slides
+
+
+```{r bind}
+?rbind()
+?cbind() #help
+
+
+
+
+
+
+
+
+
+```
+
+
+
+## Example 4 from slides
+
+
+```{r df}
+?data.frame()
+?dim()
+?str()    #help
+
+
+
+
+
+
+```
+
+
+
+## Example 5 from slides
+
+
+```{r cars}
+?colnames()
+
+data("mtcars")
+colnames(mtcars)[4] <- "Horsepower " #change 4th column name
+
+
+
+```
+
+
+
+
+
+## Example 6 from slides
+
+
+```{r}
+?merge() #help
+
+#Player <- c("Hasal", "Adekugbe", "Gauld", "Ahmed")
+#Position <- c("GK","DF","MF","DF")
+
+
+
+
+
+```
+
+
+
+
+
+```{r NA code}
+
+#df1 <- mtcars[!is.na(mtcars[,3]),]
+#df1 <- mtcars[!(is.na(mtcars[,3]) & is.na(mtcars[,5])),]
+
+```
+

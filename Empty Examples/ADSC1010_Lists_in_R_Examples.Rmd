@@ -1,0 +1,77 @@
+---
+title: "ADSC1010_Lists_in_R_Examples"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Example 1 from slides
+
+```{r create-list}
+?list() #help
+
+#list.1 <- list(object.1 = 100, object.2 = "ADSC1010")
+
+
+
+```
+
+
+
+## Example 2 from slides
+
+```{r list-items}
+
+
+
+
+```
+
+
+
+
+## Example 3 from slides
+
+```{r nested-items}
+
+List.2 <- list(A=c(50,60,70),B=list(C=c("Hi","Hello"),D=80))
+List.2$B$D
+List.2$B[2]
+List.2$B$C[1]
+
+
+
+
+
+```
+
+
+
+
+## Example 4 from slides
+
+```{r Modifications}
+
+List.2$B$C[1] <- "Howdy"
+List.2
+
+
+
+
+```
+
+
+
+## lapply() Function
+
+```{r}
+
+?lapply()
+
+
+```
+

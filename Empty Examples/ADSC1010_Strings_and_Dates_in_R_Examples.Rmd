@@ -1,0 +1,216 @@
+---
+title: "Strings and Dates in R"
+author: "Sean Hellingman"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Strings
+
+### Slide 4
+
+```{r}
+
+nchar("Data Science")
+
+```
+
+### Slide 5
+
+
+```{r}
+
+paste("Hello","Hi","Howdy", 1010 ,sep=" ")
+
+
+
+```
+
+
+### Slide 6
+
+
+```{r}
+
+Letters <- c("A","B","C")
+paste(Letters,"is the best","letter",sep=" ")
+paste(Letters, "is the best","letter",sep=" ", collapse = " ")
+
+
+```
+
+
+
+
+
+## Example 1
+
+```{r Ex1}
+
+# Area_Volume2 <- function(length = 0, width = 0, height = 1) {
+#   if (height != 1) {
+#     area <- list(Volume = length*width*height)
+#   } else {
+#     area <- list(Area = length*width*height)
+#   }
+#   return(area)
+# }
+
+
+
+```
+
+
+
+### Slide 8
+
+
+```{r}
+
+Letters2 <- c("ABCD","EFGH","IJKL")
+substr(Letters2,1,2)
+
+
+```
+
+
+### Slide 9
+
+
+
+```{r}
+
+
+String <- ("This_String_Can_Be_Split")
+strsplit(String,"_")
+
+
+```
+
+
+
+
+### Slide 10
+
+
+```{r}
+
+
+s <- "Data science is fun. Data science is very useful."
+sub("Data science", "Statistics", s)
+gsub("Data science", "Statistics", s)
+
+nchar(s)
+
+sA <- substr(s,1,20)
+sB <- substr(s,22,49)
+
+paste(sB,sA)
+
+```
+## Example 2
+
+```{r Ex-2}
+#27
+#53
+
+
+
+
+```
+
+
+
+### Slide 12
+
+
+```{r}
+
+locations <- c("NY", "LA", "CHI", "HOU")
+treatments <- c("T1", "T2", "T3")
+
+#outer(,sep="-")
+
+```
+
+
+# Dates
+
+
+### Slide 15 & 16
+
+```{r}
+
+Sys.Date()
+
+
+format(Sys.Date(),format="%d/%m/%Y")
+
+```
+
+### side 17
+
+```{r}
+
+as.Date("12/31/2010")
+as.Date("12/31/2010", format="%m/%d/%Y")
+```
+
+
+
+```{r}
+
+
+D <- 17
+M <- 11
+Y <- 2024
+ISOdate(Y,M,D)
+
+
+```
+
+
+
+
+## Example 3 from slides
+
+
+```{r}
+
+
+
+
+```
+
+
+
+### Slide 20 & 21
+
+```{r}
+
+d <- as.Date("2023-09-28")
+p <- as.POSIXlt(d)
+
+p$sec
+
+
+```
+
+### Slide 23
+
+```{r}
+
+start_date <- as.Date("2023-09-01")
+end_date <- as.Date("2023-09-10")
+date_sequence <- seq(from = start_date, to = end_date, by= "day")
+
+date_sequence
+
+# difftime()
+
+```
+
